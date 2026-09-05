@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Serwer Klasowy 5D</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <canvas id="bg"></canvas>
+  <div class="glow-grad"></div>
+
+  <nav class="nav reveal">
+    <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    <div class="nav-links">
+      <button data-scroll="join">Jak dołączyć</button>
+      <button data-scroll="about">O serwerze</button>
+      <button data-scroll="crew">Nasza Załoga</button>
+      <button data-scroll="gallery">Galeria</button>
+      <button data-scroll="status">Status serwera</button>
+      <button data-scroll="news">Aktualności</button>
+      <button data-scroll="events">Wydarzenia</button>
+      <button data-scroll="contact">Kontakt</button>
+    </div>
+  </nav>
+
+  <main>
+    <header class="hero">
+      <div class="hero-grid">
+        <div class="hero-left">
+          <div class="badge">Java i Bedrock</div>
+          <h1><span class="typed"></span><span class="caret"></span></h1>
+          <p class="tagline">Dołącz do nas!</p>
+          <button id="playBtn" class="play-btn">Zagraj <span class="arrow">→</span></button>
+        </div>
+        <div class="screen reveal">
+          <div class="screen-top">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="screen-title">serwer5d.minekeep.gg</span>
+          </div>
+          <div class="screen-body">
+            <img class="shot" src="assets/gameplay.png" alt="Zrzut z rozgrywki" />
+</div>
+      <div class="screen-tag">Zrzut z serwera</div>
+        </div>
+      </div>
+
+      <div class="content horizontal">
+        <iframe src="https://websimads-reloaded--xdgamer5065.on.websim.com/?ad=true"
+          title="Site content" loading="lazy" scrolling="no"></iframe>
+      </div>
+    </header>
+
+    <div class="bento">
+      <section id="news" class="card news reveal">
+        <h2>Aktualności serwera</h2>
+        <p class="hint">Tutaj będą najważniejsze aktualności serwera</p>
+      </section>
+
+      <section id="about" class="card tall reveal">
+        <h2>O serwerze</h2>
+        <div class="facts-col">
+          <div class="fact">
+            <div class="fact-num">Wersja</div>
+            <div class="fact-val">Java 1.8-26.2 (zalecana 1.21.1) - Bedrock dowolna wersja</div>
+          </div>
+          <div class="fact">
+            <div class="fact-num">Tryby</div>
+            <div class="fact-val">Woda kolońska SMP, Lifesteal (wkrótce)</div>
+          </div>
+          <div class="fact">
+            <div class="fact-num">Gracze</div>
+            <div class="fact-val">Tylko klasa 5D</div>
+          </div>
+          <div class="fact">
+            <div class="fact-num">Wydajność</div>
+            <div class="fact-val">Gówniana xD</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="crew" class="card crew reveal">
+        <h2>Nasza Załoga</h2>
+        <div class="crew-list">
+          <div class="member">
+            <div class="avatar owner">S</div>
+            <div class="member-info">
+              <span class="member-name">Szymon</span>
+              <span class="member-role owner-role">Właściciel serwera</span>
+            </div>
+            <span class="crown">👑</span>
+          </div>
+          <div class="member">
+            <div class="avatar head">K</div>
+            <div class="member-info">
+              <span class="member-name">Kuba</span>
+              <span class="member-role head-role">HeadAdmin</span>
+            </div>
+            <span class="crown">⭐</span>
+          </div>
+          <div class="member">
+            <div class="avatar admin">D</div>
+            <div class="member-info">
+              <span class="member-name">Dawid</span>
+              <span class="member-role admin-role">Admin</span>
+            </div>
+            <span class="crown">🛡️</span>
+          </div>
+        </div>
+      </section>
+
+      
+
+      <section id="gallery" class="card slim reveal">
+        <h2>Galeria</h2>
+        <p class="hint">Zrzuty z serwera.</p>
+        <div class="gallery">
+          <figure class="photo"><img src="assets/gallery1.png" alt="Zrzut z rozgrywki 1" /></figure>
+          <figure class="photo"><img src="assets/gallery2.png" alt="Zrzut z rozgrywki 2" /></figure>
+
+      </section>
+
+      <section id="status" class="card short reveal">
+        <h2>Status serwera</h2>
+        <div class="status-block">
+          <img id="server-icon" width="64" height="64" src="assets/server-icon.png" alt="" />
+          <div class="srv-info">
+            <div id="server-status"><span class="dot"></span>Sprawdzanie...</div>
+            <div id="players-line">Gracze: <span id="players">-</span></div>
+            <div id="motd-line">
+              <span class="motd-label">MOTD:</span>
+              <span id="motd">-</span>
+            </div>
+            <div id="offline-msg" hidden>Serwer jest teraz offline ale nie martw się, gdy na niego dołączysz automatycznie się uruchomi (uruchomienie może potrwać do kilku minut, podczas uruchamiania będziesz w poczekalni gdzie zagrasz w parkour albo PvP)</div>
+            <div class="refresh-row">
+              <span id="refresh-caption">Dane odświeżą się za</span>
+              <div class="progress"><div id="progress-fill"></div></div>
+              <span id="refresh-label"><span class="num">30</span>s</span>
+            </div>
+          </div>
+        </div>
+        <p class="about-note">Ta usługa czasami popełnia błąd a więc dane tutaj mogą być nieprawdziwe lub nieaktualne.</p>
+      </section>
+
+      <section id="events" class="card hidden reveal">
+        <h2>Wydarzenia</h2>
+        <div class="event-list">
+          <p>Nie ma żadnych planowanych wydarzeń</p>
+        </div>
+      </section>
+
+      <section id="contact" class="card short reveal">
+        <h2>Kontakt</h2>
+        <p>Masz sugestię? Znalazłeś błąd? Napisz na grupie WhatsApp „Serwer Minecraft" albo skontaktuj się w prywatnej wiadomości na WhatsAppie z naszą załogą.</p>
+        <a class="wa-btn" href="https://chat.whatsapp.com/D9NC5xxgzsQ5Lo6bZFvtnB" target="_blank" rel="noopener">
+          <svg viewBox="0 0 32 32" aria-hidden="true">
+            <path d="M16 3C8.8 3 3 8.8 3 16c0 2.3.6 4.5 1.7 6.4L3 29l6.8-1.7c1.9 1 4 1.6 6.2 1.6 7.2 0 13-5.8 13-13S23.2 3 16 3z" fill="#25D366"/>
+            <path d="M22.4 18.1c-.3-.1-1.6-.8-1.9-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.5-.5c.1-.2.2-.3.2-.5s0-.4-.1-.5c-.1-.1-.7-1.8-1-2.4-.2-.6-.5-.5-.7-.5h-.5c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2 3.2 4.9 4.4.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.6-.7 1.9-1.3.2-.6.2-1.2.2-1.3-.1-.1-.3-.2-.6-.2z" fill="#fff"/>
+          </svg>
+          Dołącz na naszą grupę!
+        </a>
+      </section>
+
+      <div class="content short">
+        <iframe src="https://websimads-reloaded--xdgamer5065.on.websim.com/?ad=true"
+          title="Site content" loading="lazy" scrolling="no"></iframe>
+      </div>
+    </div>
+
+    <section id="join" class="card wide reveal">
+      <h2>Jak dołączyć?</h2>
+      <p class="hint">Nie wiesz jak dołączyć? To dlaczego kurde tego nie przeczytasz?</p>
+
+      <div class="entry">
+        <div class="entry-top">
+          <span class="platform java">Java Edition</span>
+          <span class="info">1.8-26.2</span>
+        </div>
+        <div class="copy-row">
+          <code>serwer5d.minekeep.gg</code>
+          <button class="copy-btn" data-copy="serwer5d.minekeep.gg">Kopiuj</button>
+        </div>
+        <ol class="steps">
+          <li>Otwórz Minecraft Java Edition</li>
+          <li>Wybierz <b>Tryb wieloosobowy (Multiplayer)</b> → <b>Dodaj serwer (Add server)</b></li>
+          <li>Wklej adres (wciśnij Ctrl i V naraz) do <b>Adres serwera (Server Address)</b>  i kliknij <b>Gotowe (Done)</b>, potem kliknij nazwę serwera i przycisk<b>Dołącz (Join Server)</b></li>
+          <li>Otwórz czat (wciśnij T) i wpisz /register a potem dwa razy hasło jakie chcesz ustawić (hasła nie mogą się różnić i powinny być oddzielone spacją)</li>
+          <li>Kliknij w manekina z trybem na który chcesz dołączyć i ciesz się grą</li>
+          <li>Jeśli ponownie dołączysz na serwer wpisz /login i hasło które wcześniej ustawiłeś JEDEN RAZ i wtedy możesz grać</li>
+        </ol>
+      </div>
+
+      <div class="entry">
+        <div class="entry-top">
+          <span class="platform bedrock">Bedrock Edition</span>
+          <span class="info">Dowolna wersja</span>
+        </div>
+        <div class="copy-row">
+          <code>serwer5d.bedrock.minekeep.gg</code>
+          <button class="copy-btn" data-copy="serwer5d.bedrock.minekeep.gg">Kopiuj</button>
+        </div>
+        <ol class="steps">
+          <li>Otwórz Minecraft Bedrock Edition</li>
+          <li>Kliknij <b>Graj</b> potem wybierz zakładkę<b>Serwery</b> → <b>Dodaj serwer</b></li>
+          <li>Wklej adres (nazwa może być jaka chcesz), kliknij <b>Dodaj i graj</b></li>
+          <li>Otwórz czat i wpisz /register a potem dwa razy hasło jakie chcesz ustawić (hasła nie mogą się różnić i powinny być oddzielone spacją)</li>
+          <li>Kliknij w manekina z trybem na który chcesz dołączyć i ciesz się grą</li>
+          <li>Jeśli ponownie dołączysz na serwer wpisz /login i hasło które wcześniej ustawiłeś JEDEN RAZ i wtedy możesz grać</li>
+        </ol>
+      </div>
+    </section>
+
+    <footer class="reveal">
+      <span>Miłej gry życzy Szymon, twórca strony</span>
+    </footer>
+  </main>
+
+  <div id="toast"></div>
+
+  <div id="lightbox" class="lightbox" hidden>
+    <button class="lb-close" aria-label="Zamknij">×</button>
+    <img class="lb-img" src="" alt="" />
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

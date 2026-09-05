@@ -14,7 +14,7 @@ window.addEventListener("resize", resize);
 const COLORS = ["#6f7bff", "#4fd17e", "#ff8c42", "#a98bff"];
 
 function makeParticle() {
-  const speed = 0.2 + Math.randaom() * 0.35;
+  const speed = 0.2 + Math.random() * 0.35;
   const angle = Math.random() * Math.PI * 2;
   return {
     x: Math.random() * W,

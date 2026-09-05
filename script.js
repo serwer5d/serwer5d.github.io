@@ -14,7 +14,7 @@ window.addEventListener("resize", resize);
 const COLORS = ["#6f7bff", "#4fd17e", "#ff8c42", "#a98bff"];
 
 function makeParticle() {
-  const speed = 0.2 + Math.random() * 0.35;
+  const speed = 0.2 + Math.randaom() * 0.35;
   const angle = Math.random() * Math.PI * 2;
   return {
     x: Math.random() * W,
@@ -243,10 +243,7 @@ function showToast(text) {
 document.querySelectorAll(".copy-btn").forEach((btn) => {
   btn.addEventListener("click", async () => {
     const text = btn.dataset.copy;
-document.querySelectorAll(".copy-btn").forEach((btn) => {
-  btn.addEventListener("click", async () => {
-    const text = btn.dataset.copy;
-
+    const old = btn.textContent;
     try {
       await navigator.clipboard.writeText(text);
     } catch {
@@ -257,15 +254,9 @@ document.querySelectorAll(".copy-btn").forEach((btn) => {
       document.execCommand("copy");
       ta.remove();
     }
-
-    const oldHTML = btn.innerHTML;
-    btn.innerHTML = "Skopiowano!";
-
+    btn.textContent = "Skopiowano!";
     showToast("Adres skopiowany do schowka.");
-
-    setTimeout(() => {
-      btn.innerHTML = oldHTML;
-    }, 1500);
+    setTimeout(() => { btn.textContent = old; }, 1500);
   });
 });
 

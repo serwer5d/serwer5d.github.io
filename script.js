@@ -243,7 +243,10 @@ function showToast(text) {
 document.querySelectorAll(".copy-btn").forEach((btn) => {
   btn.addEventListener("click", async () => {
     const text = btn.dataset.copy;
-    const old = btn.textContent;
+document.querySelectorAll(".copy-btn").forEach((btn) => {
+  btn.addEventListener("click", async () => {
+    const text = btn.dataset.copy;
+
     try {
       await navigator.clipboard.writeText(text);
     } catch {
@@ -254,9 +257,15 @@ document.querySelectorAll(".copy-btn").forEach((btn) => {
       document.execCommand("copy");
       ta.remove();
     }
-    btn.textContent = "Skopiowano!";
+
+    const oldHTML = btn.innerHTML;
+    btn.innerHTML = "Skopiowano!";
+
     showToast("Adres skopiowany do schowka.");
-    setTimeout(() => { btn.textContent = old; }, 1500);
+
+    setTimeout(() => {
+      btn.innerHTML = oldHTML;
+    }, 1500);
   });
 });
 

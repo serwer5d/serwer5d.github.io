@@ -592,19 +592,13 @@ footer { text-align: center; color: var(--muted); font-size: 0.85rem; padding: 2
 }
 
 .copy-btn svg {
-  width: 24px;
-  height: 24px;
-  display: block;
+  width: 22px;
+  height: 22px;
+  display: inline-block;
+  vertical-align: middle;
+  fill: #fff;
 }
 
-.copy-btn svg .accent {
-  fill: currentColor;
-}
-
-.copy-btn svg .outline {
-  fill: currentColor;
-}
-
-.copy-btn svg .solid {
-  fill: currentColor;
+.copy-btn svg path {
+  fill: #fff;
 }

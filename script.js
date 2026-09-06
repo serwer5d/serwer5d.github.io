@@ -179,7 +179,7 @@ async function updateServer() {
   }
 
   try {
-    const response = await fetch("https://api.mcstatus.io/v2/status/java/serwer5d.minekeep.gg");
+    const response = await fetch("https://api.mcstatus.io/v2/status/java/serwer5d.ivhs.pl");
     const data = await response.json();
 
     const motd = (data.motd?.clean || "") + "";

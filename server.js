@@ -78,8 +78,6 @@ async function getSession(request) {
     if (token) sessions.delete(token);
     return null;
   }
-  const visitorId = request.headers.get("x-websim-user-id");
-  if (!visitorId || visitorId !== session.userId) return null;
   return { ...session, token };
 }
 
@@ -111,12 +109,6 @@ function clearFailures(key) {
   loginAttempts.delete(key);
 }
 
-function isProjectOwner(request, session) {
-  const visitorId = request.headers.get("x-websim-user-id");
-  const ownerId = request.headers.get("x-websim-project-owner-id");
-  return session.username === "Szymon" && visitorId && ownerId && visitorId === ownerId;
-}
-
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -132,10 +124,6 @@ export default {
     }
 
     if (request.method === "POST" && url.pathname === "/api/crew/login") {
-      const visitorId = request.headers.get("x-websim-user-id");
-      if (!visitorId) {
-        return Response.json({ error: "Zaloguj się do Websim, aby zarządzać profilem." }, { status: 401 });
-      }
       let body;
       try { body = await request.json(); } catch {
         return Response.json({ error: "Nieprawidłowe dane logowania." }, { status: 400 });
@@ -161,19 +149,19 @@ export default {
       const token = bytesToHex(crypto.getRandomValues(new Uint8Array(32)));
       sessions.set(token, {
         username: account.username,
-        userId: visitorId,
+        userId: request.headers.get("x-websim-user-id"),
         expiresAt: Date.now() + SESSION_TTL
       });
       return Response.json({
         token,
         username: account.username,
-        canManagePasswords: !!visitorId && isProjectOwner(request, { username: account.username })
+        canManagePasswords: account.username === "Szymon"
       });
     }
 
     if (request.method === "POST" && url.pathname === "/api/crew/password") {
       const session = await getSession(request);
-      if (!session || !isProjectOwner(request, session)) {
+      if (!session || session.username !== "Szymon") {
         return Response.json({ error: "Brak uprawnień do zmiany haseł." }, { status: 403 });
       }
       let body;
@@ -188,7 +176,7 @@ export default {
       const salt = bytesToHex(crypto.getRandomValues(new Uint8Array(16)));
       const hash = await passwordHash(password, salt);
       await env.DB.prepare(
-        "UPDATE crew_accounts SET password_salt = ?, password_hash = ?, user_id = ?, updated_at = ? WHERE username = ?"
+        "UPDATE crew_accounts SET password_salt = ?, password_hash = ?, user_id = COALESCE(?, user_id), updated_at = ? WHERE username = ?"
       ).bind(salt, hash, session.userId, Date.now(), username).run();
       return Response.json({ ok: true });
     }
@@ -219,7 +207,7 @@ export default {
         { contentType: "image/webp" }
       );
       await env.DB.prepare(
-        "UPDATE crew_accounts SET avatar_url = ?, user_id = ?, updated_at = ? WHERE username = ?"
+        "UPDATE crew_accounts SET avatar_url = ?, user_id = COALESCE(?, user_id), updated_at = ? WHERE username = ?"
       ).bind(imageUrl, session.userId, Date.now(), session.username).run();
       return Response.json({ ok: true, avatar_url: imageUrl });
     }

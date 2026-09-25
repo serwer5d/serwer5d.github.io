@@ -11,6 +11,10 @@
   <canvas id="bg"></canvas>
   <div class="glow-grad"></div>
 
+  <div id="admin-toolbar" class="admin-toolbar" hidden>
+    <button id="admin-open" class="admin-open" type="button">Panel zarządzania</button>
+  </div>
+
   <nav class="nav reveal">
     <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
     <div class="nav-links">
@@ -64,7 +68,7 @@
           </div>
           <div class="fact">
             <div class="fact-num">Tryby</div>
-            <div class="fact-val">Woda kolońska SMP, Lifesteal (wkrótce)</div>
+            <div class="fact-val">Woda kolońska SMP, Lifesteal</div>
           </div>
           <div class="fact">
             <div class="fact-num">Gracze</div>
@@ -78,29 +82,32 @@
       </section>
 
       <section id="crew" class="card crew reveal">
-        <h2>Nasza Załoga</h2>
+        <h2 id="crew-title">Nasza Załoga</h2>
         <div class="crew-list">
           <div class="member">
-            <div class="avatar owner">S</div>
+            <div class="avatar owner"><span>S</span><img class="avatar-image" alt="" hidden /></div>
             <div class="member-info">
               <span class="member-name">Szymon</span>
               <span class="member-role owner-role">Właściciel serwera</span>
+              <button class="member-photo-edit quiet-action" type="button" hidden>Zmień zdjęcie profilowe</button>
             </div>
             <span class="crown">👑</span>
           </div>
           <div class="member">
-            <div class="avatar head">K</div>
+            <div class="avatar head"><span>K</span><img class="avatar-image" alt="" hidden /></div>
             <div class="member-info">
               <span class="member-name">Kuba</span>
               <span class="member-role head-role">HeadAdmin</span>
+              <button class="member-photo-edit quiet-action" type="button" hidden>Zmień zdjęcie profilowe</button>
             </div>
             <span class="crown">⭐</span>
           </div>
           <div class="member">
-            <div class="avatar admin">D</div>
+            <div class="avatar admin"><span>D</span><img class="avatar-image" alt="" hidden /></div>
             <div class="member-info">
               <span class="member-name">Dawid</span>
               <span class="member-role admin-role">Admin</span>
+              <button class="member-photo-edit quiet-action" type="button" hidden>Zmień zdjęcie profilowe</button>
             </div>
             <span class="crown">🛡️</span>
           </div>
@@ -164,44 +171,65 @@
 
     <section id="join" class="card wide reveal">
       <h2>Jak dołączyć?</h2>
-      <p class="hint">Nie wiesz jak dołączyć? To dlaczego kurde tego nie przeczytasz?</p>
-
-      <div class="entry">
-        <div class="entry-top">
-          <span class="platform java">Java Edition</span>
-          <span class="info">1.8-26.2</span>
-        </div>
-        <div class="copy-row">
-          <code>serwer5d.ivhs.pl</code>
-          <button class="copy-btn" data-copy="serwer5d.minekeep.gg">Kopiuj</button>
-        </div>
-        <ol class="steps">
-          <li>Otwórz Minecraft Java Edition</li>
-          <li>Wybierz <b>Tryb wieloosobowy (Multiplayer)</b> → <b>Dodaj serwer (Add server)</b></li>
-          <li>Wklej adres (wciśnij Ctrl i V naraz) do <b>Adres serwera (Server Address)</b>  i kliknij <b>Gotowe (Done)</b>, potem kliknij nazwę serwera i przycisk<b>Dołącz (Join Server)</b></li>
-          <li>Otwórz czat (wciśnij T) i wpisz /register a potem dwa razy hasło jakie chcesz ustawić (hasła nie mogą się różnić i powinny być oddzielone spacją)</li>
-          <li>Kliknij w manekina z trybem na który chcesz dołączyć i ciesz się grą</li>
-          <li>Jeśli ponownie dołączysz na serwer wpisz /login i hasło które wcześniej ustawiłeś JEDEN RAZ i wtedy możesz grać</li>
-        </ol>
+      <div class="join-tabs" role="tablist" aria-label="Wybierz urządzenie">
+        <button class="join-tab active" id="tab-computer" type="button" role="tab" aria-selected="true" aria-controls="join-computer">Komputer</button>
+        <button class="join-tab" id="tab-mobile" type="button" role="tab" aria-selected="false" aria-controls="join-mobile">Telefon i tablet</button>
       </div>
 
-      <div class="entry">
-        <div class="entry-top">
-          <span class="platform bedrock">Bedrock Edition</span>
-          <span class="info">Dowolna wersja</span>
+      <div id="join-computer" class="join-panel" role="tabpanel" aria-labelledby="tab-computer">
+        <div class="entry">
+          <div class="entry-top">
+            <span class="info">1.8-26.2</span>
+          </div>
+          <div class="copy-row">
+            <code>serwer5d.ivhs.pl</code>
+            <button class="copy-btn" data-copy="serwer5d.ivhs.pl" type="button">Kopiuj</button>
+          </div>
+          <ol class="steps">
+            <li>Otwórz Minecraft Java Edition.</li>
+            <li>Wybierz <b>Tryb wieloosobowy (Multiplayer)</b> → <b>Dodaj serwer (Add Server)</b>.</li>
+            <li>Wklej adres do pola <b>Adres serwera (Server Address)</b> i kliknij <b>Gotowe (Done)</b>. Następnie wybierz nazwę serwera i kliknij <b>Dołącz (Join Server)</b>.</li>
+            <li>Otwórz czat klawiszem T i wpisz <code>/register twojehasło twojehasło</code>. Oba hasła muszą być takie same i oddzielone spacją.</li>
+            <li>Kliknij manekina z trybem, do którego chcesz dołączyć, i graj!</li>
+            <li>Przy kolejnych dołączeniach wpisz na czacie <code>/login twojehasło</code> (hasło podaj jeden raz).</li>
+          </ol>
         </div>
-        <div class="copy-row">
-          <code>Już wkrótce</code>
-          <button class="copy-btn" data-copy="serwer5d.bedrock.minekeep.gg">Kopiuj</button>
+      </div>
+
+      <div id="join-mobile" class="join-panel" role="tabpanel" aria-labelledby="tab-mobile" hidden>
+        <div class="entry">
+          <div class="entry-top">
+            <span class="info">Android</span>
+          </div>
+          <div class="copy-row">
+            <code>serwer5d.ivhs.pl</code>
+            <button class="copy-btn" data-copy="serwer5d.ivhs.pl" type="button">Kopiuj</button>
+          </div>
+          <ol class="steps">
+            <li>Pobierz <a href="https://play.google.com/store/apps/details?id=git.artdeell.mjlaunch&amp;hl=pl" target="_blank" rel="noopener">bezpłatną aplikację Mojo Launcher z Google Play</a>.</li>
+            <li>Otwórz Mojo Launcher, kliknij niebieski przycisk <b>Graj</b> i poczekaj do 5 minut.</li>
+            <li>Kliknij <b>Multiplayer</b>, potem <b>Add Server</b>. W polu <b>Server Address</b> wklej skopiowany adres IP (otwórz klawiaturę przyciskiem <b>KEYBOARD</b>), a następnie wciśnij <b>Done</b>.</li>
+            <li>Kliknij nazwę serwera, a potem przycisk <b>Join Server</b>.</li>
+            <li>Wciśnij <b>CHAT</b> i wpisz <code>/register twojehasło twojehasło</code>. Hasła muszą być takie same i oddzielone spacją.</li>
+            <li>Kliknij manekina z trybem, do którego chcesz dołączyć, i graj!</li>
+            <li>Przy kolejnych dołączeniach wpisz <code>/login twojehasło</code>. Podaj hasło ustawione wcześniej jeden raz.</li>
+          </ol>
         </div>
-        <ol class="steps">
-          <li>Otwórz Minecraft Bedrock Edition</li>
-          <li>Kliknij <b>Graj</b> potem wybierz zakładkę<b>Serwery</b> → <b>Dodaj serwer</b></li>
-          <li>Wklej adres (nazwa może być jaka chcesz), kliknij <b>Dodaj i graj</b></li>
-          <li>Otwórz czat i wpisz /register a potem dwa razy hasło jakie chcesz ustawić (hasła nie mogą się różnić i powinny być oddzielone spacją)</li>
-          <li>Kliknij w manekina z trybem na który chcesz dołączyć i ciesz się grą</li>
-          <li>Jeśli ponownie dołączysz na serwer wpisz /login i hasło które wcześniej ustawiłeś JEDEN RAZ i wtedy możesz grać</li>
-        </ol>
+        <figure class="mobile-video">
+          <figcaption>Obejrzyj film z instrukcją</figcaption>
+          <div class="mobile-video-frame">
+            <iframe
+              width="2537"
+              height="1151"
+              src="https://www.youtube.com/embed/rdoPi1rB2BE"
+              title="Jak wbić na serwer na urządzeniu mobilnym?"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </figure>
       </div>
     </section>
 
@@ -211,6 +239,67 @@
   </main>
 
   <div id="toast"></div>
+
+  <div id="admin-dialog" class="modal" hidden>
+    <div class="modal-backdrop" data-close-modal></div>
+    <section class="modal-card admin-modal" role="dialog" aria-modal="true" aria-labelledby="admin-dialog-title">
+      <button class="modal-close" type="button" aria-label="Zamknij">×</button>
+      <div id="admin-login-view">
+        <h2 id="admin-dialog-title">Logowanie</h2>
+        <form id="admin-login-form" class="admin-form">
+          <label>Nazwa użytkownika<input name="username" autocomplete="username" required /></label>
+          <label>Hasło<input name="password" type="password" autocomplete="current-password" required /></label>
+          <p class="form-error" id="login-error" role="alert"></p>
+          <button class="admin-action" type="submit">Zaloguj</button>
+        </form>
+      </div>
+      <div id="admin-panel-view" hidden>
+        <div class="panel-heading">
+          <div>
+            <h2 id="admin-panel-title">Panel zarządzania</h2>
+            <p id="admin-session-label" class="panel-caption"></p>
+          </div>
+          <button id="admin-logout" class="quiet-action" type="button">Wyloguj</button>
+        </div>
+        <section id="password-controls" class="password-controls" hidden>
+          <h3>Zmiana hasła</h3>
+          <form id="password-form" class="admin-form">
+            <label>Konto
+              <select name="username" required>
+                <option value="Szymon">Szymon</option>
+                <option value="Kuba">Kuba</option>
+                <option value="Dawid">Dawid</option>
+              </select>
+            </label>
+            <label>Nowe hasło<input name="password" type="password" autocomplete="new-password" minlength="4" required /></label>
+            <p class="form-error" id="password-error" role="alert"></p>
+            <button class="admin-action" type="submit">Zapisz hasło</button>
+          </form>
+        </section>
+        <section class="profile-controls">
+          <h3>Zdjęcia profilowe</h3>
+          <div id="admin-profile-list" class="admin-profile-list"></div>
+        </section>
+      </div>
+    </section>
+  </div>
+
+  <div id="photo-dialog" class="modal" hidden>
+    <div class="modal-backdrop" data-close-photo></div>
+    <section class="modal-card photo-modal" role="dialog" aria-modal="true" aria-labelledby="photo-dialog-title">
+      <button class="modal-close" type="button" aria-label="Zamknij">×</button>
+      <h2 id="photo-dialog-title">Zdjęcie profilowe</h2>
+      <button id="pick-photo" class="file-pick" type="button">Wybierz obraz z urządzenia</button>
+      <input id="photo-file" class="photo-file-input" type="file" accept="image/*" hidden />
+      <div class="crop-stage"><canvas id="crop-canvas" width="320" height="320" aria-label="Kadruj zdjęcie"></canvas></div>
+      <div class="crop-tools">
+        <label class="zoom-control">Powiększenie<input id="photo-zoom" type="range" min="1" max="3" step="0.01" value="1" /></label>
+        <button id="rotate-photo" class="quiet-action" type="button">Obróć 90°</button>
+      </div>
+      <p id="photo-error" class="form-error" role="alert"></p>
+      <button id="save-photo" class="admin-action" type="button" disabled>Zatwierdź zdjęcie</button>
+    </section>
+  </div>
 
   <div id="lightbox" class="lightbox" hidden>
     <button class="lb-close" aria-label="Zamknij">×</button>

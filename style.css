@@ -236,6 +236,7 @@ h1 {
   border-radius: 14px;
   background: rgba(255, 255, 255, 0.025);
 }
+#join > .join-tabs { margin-bottom: 0; }
 .join-tab {
   flex: 1;
   min-height: 42px;
@@ -294,7 +295,7 @@ code {
 .steps code { color: var(--text); font-size: 0.88em; }
 
 .mobile-video {
-  margin-top: 18px;
+  margin: 16px 0;
 }
 .mobile-video figcaption {
   margin-bottom: 9px;

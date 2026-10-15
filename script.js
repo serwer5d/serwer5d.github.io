@@ -263,23 +263,12 @@ function showToast(text, duration = 1800) {
 const crewTitle = document.getElementById("crew-title");
 const adminToolbar = document.getElementById("admin-toolbar");
 const adminDialog = document.getElementById("admin-dialog");
-const photoDialog = document.getElementById("photo-dialog");
 const loginView = document.getElementById("admin-login-view");
 const panelView = document.getElementById("admin-panel-view");
 const loginError = document.getElementById("login-error");
 const passwordError = document.getElementById("password-error");
-const photoError = document.getElementById("photo-error");
-const cropCanvas = document.getElementById("crop-canvas");
-const cropCtx = cropCanvas.getContext("2d");
-const photoZoom = document.getElementById("photo-zoom");
 let titleClicks = [];
 let crewSession = null;
-let cropImage = null;
-let cropObjectUrl = null;
-let cropZoom = 1;
-let cropRotation = 0;
-let cropOffset = { x: 0, y: 0 };
-let dragPoint = null;
 
 crewTitle.addEventListener("click", () => {
   const now = Date.now();
@@ -363,7 +352,6 @@ function applyCrewAvatars(profiles) {
       .find((row) => row.querySelector(".member-name")?.textContent.trim() === profile.username);
     const image = member?.querySelector(".avatar-image");
     const initial = member?.querySelector(".avatar > span");
-    const editButton = member?.querySelector(".member-photo-edit");
     if (!image || !initial) return;
     if (profile.avatar_url) {
       image.src = profile.avatar_url;
@@ -374,39 +362,12 @@ function applyCrewAvatars(profiles) {
       image.hidden = true;
       initial.hidden = false;
     }
-    if (editButton) {
-      editButton.hidden = !crewSession || crewSession.username !== profile.username;
-      editButton.onclick = () => openPhotoEditor(profile.username);
-    }
   });
 }
 
 async function loadAdminProfiles() {
-  const list = document.getElementById("admin-profile-list");
-  list.replaceChildren();
-  document.getElementById("admin-session-label").textContent = `Zalogowano jako ${crewSession.username}`;
+  document.getElementById("admin-session-label").textContent = "Zalogowano jako " + crewSession.username;
   document.getElementById("password-controls").hidden = !crewSession.canManagePasswords;
-  try {
-    const { profiles } = await crewApi("/api/crew/profiles");
-    applyCrewAvatars(profiles);
-    profiles.forEach((profile) => {
-      const row = document.createElement("div");
-      row.className = "admin-profile-row";
-      const name = document.createElement("span");
-      name.className = "admin-profile-name";
-      name.textContent = profile.username;
-      const button = document.createElement("button");
-      button.className = "quiet-action";
-      button.type = "button";
-      button.textContent = "Zmiana zdjęcia profilowego";
-      button.disabled = profile.username !== crewSession.username;
-      button.addEventListener("click", () => openPhotoEditor(profile.username));
-      row.append(name, button);
-      list.append(row);
-    });
-  } catch (error) {
-    showToast(error.message);
-  }
 }
 
 document.getElementById("password-form").addEventListener("submit", async (event) => {
@@ -440,136 +401,9 @@ document.getElementById("admin-logout").addEventListener("click", () => {
   loadCrewProfiles();
 });
 
-function openPhotoEditor(username) {
-  if (username !== crewSession?.username) return;
-  cropImage = null;
-  if (cropObjectUrl) URL.revokeObjectURL(cropObjectUrl);
-  cropObjectUrl = null;
-  cropZoom = 1;
-  cropRotation = 0;
-  cropOffset = { x: 0, y: 0 };
-  photoZoom.value = "1";
-  photoError.textContent = "";
-  document.getElementById("photo-file").value = "";
-  document.getElementById("save-photo").disabled = true;
-  cropCtx.clearRect(0, 0, cropCanvas.width, cropCanvas.height);
-  photoDialog.hidden = false;
-}
-
-function closePhotoEditor() {
-  photoDialog.hidden = true;
-  cropImage = null;
-  if (cropObjectUrl) URL.revokeObjectURL(cropObjectUrl);
-  cropObjectUrl = null;
-}
-
-photoDialog.querySelectorAll("[data-close-photo], .modal-close").forEach((el) => {
-  el.addEventListener("click", closePhotoEditor);
-});
-document.getElementById("pick-photo").addEventListener("click", () => {
-  document.getElementById("photo-file").click();
-});
-
-function drawCrop() {
-  cropCtx.clearRect(0, 0, cropCanvas.width, cropCanvas.height);
-  cropCtx.fillStyle = "#111722";
-  cropCtx.fillRect(0, 0, cropCanvas.width, cropCanvas.height);
-  if (!cropImage) return;
-  const fit = cropCanvas.width / Math.min(cropImage.naturalWidth, cropImage.naturalHeight);
-  const scale = fit * cropZoom;
-  const quarterTurn = cropRotation % 180 !== 0;
-  const renderedWidth = (quarterTurn ? cropImage.naturalHeight : cropImage.naturalWidth) * scale;
-  const renderedHeight = (quarterTurn ? cropImage.naturalWidth : cropImage.naturalHeight) * scale;
-  cropOffset.x = Math.max(-(renderedWidth - cropCanvas.width) / 2, Math.min((renderedWidth - cropCanvas.width) / 2, cropOffset.x));
-  cropOffset.y = Math.max(-(renderedHeight - cropCanvas.height) / 2, Math.min((renderedHeight - cropCanvas.height) / 2, cropOffset.y));
-  cropCtx.save();
-  cropCtx.translate(cropCanvas.width / 2 + cropOffset.x, cropCanvas.height / 2 + cropOffset.y);
-  cropCtx.rotate(cropRotation * Math.PI / 180);
-  cropCtx.scale(scale, scale);
-  cropCtx.drawImage(cropImage, -cropImage.naturalWidth / 2, -cropImage.naturalHeight / 2);
-  cropCtx.restore();
-}
-
-document.getElementById("photo-file").addEventListener("change", async (event) => {
-  const file = event.currentTarget.files?.[0];
-  photoError.textContent = "";
-  if (!file) return;
-  if (!file.type.startsWith("image/") || file.size > 10 * 1024 * 1024) {
-    photoError.textContent = "Wybierz zdjęcie w formacie obrazu do 10 MB.";
-    return;
-  }
-  try {
-    const image = new Image();
-    if (cropObjectUrl) URL.revokeObjectURL(cropObjectUrl);
-    cropObjectUrl = URL.createObjectURL(file);
-    image.src = cropObjectUrl;
-    await image.decode();
-    cropImage = image;
-    cropZoom = 1;
-    cropRotation = 0;
-    cropOffset = { x: 0, y: 0 };
-    photoZoom.value = "1";
-    document.getElementById("save-photo").disabled = false;
-    drawCrop();
-  } catch {
-    photoError.textContent = "Nie udało się odczytać tego pliku.";
-  }
-});
-
-photoZoom.addEventListener("input", () => {
-  cropZoom = Number(photoZoom.value);
-  drawCrop();
-});
-document.getElementById("rotate-photo").addEventListener("click", () => {
-  cropRotation = (cropRotation + 90) % 360;
-  drawCrop();
-});
-
-cropCanvas.addEventListener("pointerdown", (event) => {
-  if (!cropImage) return;
-  cropCanvas.setPointerCapture(event.pointerId);
-  dragPoint = { x: event.clientX, y: event.clientY };
-});
-cropCanvas.addEventListener("pointermove", (event) => {
-  if (!dragPoint) return;
-  const rect = cropCanvas.getBoundingClientRect();
-  const factor = cropCanvas.width / rect.width;
-  cropOffset.x += (event.clientX - dragPoint.x) * factor;
-  cropOffset.y += (event.clientY - dragPoint.y) * factor;
-  dragPoint = { x: event.clientX, y: event.clientY };
-  drawCrop();
-});
-cropCanvas.addEventListener("pointerup", () => { dragPoint = null; });
-cropCanvas.addEventListener("pointercancel", () => { dragPoint = null; });
-
-document.getElementById("save-photo").addEventListener("click", async (event) => {
-  if (!cropImage) return;
-  const button = event.currentTarget;
-  photoError.textContent = "";
-  button.disabled = true;
-  cropCanvas.toBlob(async (blob) => {
-    try {
-      if (!blob) throw new Error("Nie udało się przygotować zdjęcia.");
-      const headers = { "content-type": "image/webp" };
-      if (crewSession?.token) headers.authorization = `Bearer ${crewSession.token}`;
-      const response = await fetch("/api/crew/avatar", { method: "POST", headers, body: blob });
-      const result = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(result.error || "Nie udało się zapisać zdjęcia.");
-      await loadCrewProfiles();
-      closePhotoEditor();
-      await loadAdminProfiles();
-      showToast("Zdjęcie profilowe zostało zapisane.");
-    } catch (error) {
-      photoError.textContent = error.message;
-      button.disabled = false;
-    }
-  }, "image/webp", 0.9);
-});
-
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
     closeAdminDialog();
-    closePhotoEditor();
   }
 });
 

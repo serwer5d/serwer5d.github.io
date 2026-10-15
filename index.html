@@ -14,7 +14,9 @@
     <button id="admin-open" class="admin-open" type="button">Panel zarządzania</button>
   </div>
 
-  <nav class="nav reveal">
+  <div class="top-banner">
+  <nav class="nav reveal" id="site-nav">
+    <a class="brand-logo" href="/" aria-label="Serwer Klasowy 5D"><img src="uploads/image-10.png" alt="Serwer MC Klasy 5D" /></a>
     <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
     <div class="nav-links">
       <button data-scroll="join">Jak dołączyć</button>
@@ -29,7 +31,7 @@
     <a class="version-link" href="/legacy/">Przejdź na starą wersję strony</a>
   </nav>
 
-  <main>
+  <div class="hero-main">
     <header class="hero">
       <div class="hero-grid">
         <div class="hero-left">
@@ -39,20 +41,18 @@
           <button id="playBtn" class="play-btn">Zagraj <span class="arrow">→</span></button>
         </div>
         <div class="screen reveal">
-          <div class="screen-top">
-            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-            <span class="screen-title">serwer5d.ivhs.pl</span>
-          </div>
           <div class="screen-body">
             <img class="shot" src="assets/gameplay.png" alt="Zrzut z rozgrywki" />
 </div>
-      <div class="screen-tag">Zrzut z serwera</div>
         </div>
       </div>
 
 
     </header>
+  </div>
+</div>
 
+<main>
     <div class="bento">
       <section id="news" class="card news reveal">
         <h2>Aktualności serwera</h2>
@@ -89,7 +89,6 @@
             <div class="member-info">
               <span class="member-name">Szymon</span>
               <span class="member-role owner-role">Właściciel serwera</span>
-              <button class="member-photo-edit quiet-action" type="button" hidden>Zmień zdjęcie profilowe</button>
             </div>
             <span class="crown">👑</span>
           </div>
@@ -98,7 +97,6 @@
             <div class="member-info">
               <span class="member-name">Kuba</span>
               <span class="member-role head-role">HeadAdmin</span>
-              <button class="member-photo-edit quiet-action" type="button" hidden>Zmień zdjęcie profilowe</button>
             </div>
             <span class="crown">⭐</span>
           </div>
@@ -107,7 +105,6 @@
             <div class="member-info">
               <span class="member-name">Dawid</span>
               <span class="member-role admin-role">Admin</span>
-              <button class="member-photo-edit quiet-action" type="button" hidden>Zmień zdjęcie profilowe</button>
             </div>
             <span class="crown">🛡️</span>
           </div>
@@ -276,28 +273,7 @@
             <button class="admin-action" type="submit">Zapisz hasło</button>
           </form>
         </section>
-        <section class="profile-controls">
-          <h3>Zdjęcia profilowe</h3>
-          <div id="admin-profile-list" class="admin-profile-list"></div>
-        </section>
       </div>
-    </section>
-  </div>
-
-  <div id="photo-dialog" class="modal" hidden>
-    <div class="modal-backdrop" data-close-photo></div>
-    <section class="modal-card photo-modal" role="dialog" aria-modal="true" aria-labelledby="photo-dialog-title">
-      <button class="modal-close" type="button" aria-label="Zamknij">×</button>
-      <h2 id="photo-dialog-title">Zdjęcie profilowe</h2>
-      <button id="pick-photo" class="file-pick" type="button">Wybierz obraz z urządzenia</button>
-      <input id="photo-file" class="photo-file-input" type="file" accept="image/*" hidden />
-      <div class="crop-stage"><canvas id="crop-canvas" width="320" height="320" aria-label="Kadruj zdjęcie"></canvas></div>
-      <div class="crop-tools">
-        <label class="zoom-control">Powiększenie<input id="photo-zoom" type="range" min="1" max="3" step="0.01" value="1" /></label>
-        <button id="rotate-photo" class="quiet-action" type="button">Obróć 90°</button>
-      </div>
-      <p id="photo-error" class="form-error" role="alert"></p>
-      <button id="save-photo" class="admin-action" type="button" disabled>Zatwierdź zdjęcie</button>
     </section>
   </div>
 
@@ -307,5 +283,6 @@
   </div>
 
   <script src="script.js"></script>
+  <script src="new-interactions.js"></script>
 </body>
 </html>

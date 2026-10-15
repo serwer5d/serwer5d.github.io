@@ -1,91 +1,94 @@
 const canvas = document.getElementById("bg");
-const ctx = canvas.getContext("2d");
-let particles = [];
-let mouse = { x: -9999, y: -9999, tx: -9999, ty: -9999 };
-let W, H;
 let adminMode = false;
 
-function resize() {
-  W = canvas.width = window.innerWidth;
-  H = canvas.height = window.innerHeight;
-}
-resize();
-window.addEventListener("resize", resize);
-
-const COLORS = ["#6f7bff", "#4fd17e", "#ff8c42", "#a98bff"];
-
-function makeParticle() {
-  const speed = 0.2 + Math.random() * 0.35;
-  const angle = Math.random() * Math.PI * 2;
-  return {
-    x: Math.random() * W,
-    y: Math.random() * H,
-    vx: Math.cos(angle) * speed,
-    vy: Math.sin(angle) * speed,
-    r: 1 + Math.random() * 2.2,
-    color: COLORS[Math.floor(Math.random() * COLORS.length)],
-    alpha: 0.3 + Math.random() * 0.5,
-    tw: 0.5 + Math.random() * 1.2,
-    phase: Math.random() * Math.PI * 2
-  };
-}
-
-const COUNT = Math.min(90, Math.floor((W * H) / 16000));
-for (let i = 0; i < COUNT; i++) particles.push(makeParticle());
-
-canvas.addEventListener("mousemove", (e) => {
-  mouse.tx = e.clientX;
-  mouse.ty = e.clientY;
-});
-canvas.addEventListener("mouseleave", () => {
-  mouse.tx = -9999;
-  mouse.ty = -9999;
-});
-window.addEventListener("touchmove", (e) => {
-  const t = e.touches[0];
-  mouse.tx = t.clientX;
-  mouse.ty = t.clientY;
-}, { passive: true });
-
-let t = 0;
-function loop() {
-  t += 0.016;
-  mouse.x += (mouse.tx - mouse.x) * 0.12;
-  mouse.y += (mouse.ty - mouse.y) * 0.12;
-
-  ctx.clearRect(0, 0, W, H);
-
-  for (let p of particles) {
-    p.x += p.vx;
-    p.y += p.vy;
-
-    const dx = p.x - mouse.x;
-    const dy = p.y - mouse.y;
-    const dist = Math.hypot(dx, dy);
-    const R = 130;
-    if (dist < R && dist > 0.01) {
-      const force = (R - dist) / R;
-      p.x += (dx / dist) * force * 2.2;
-      p.y += (dy / dist) * force * 2.2;
-    }
-
-    if (p.x < -20) p.x = W + 20;
-    if (p.x > W + 20) p.x = -20;
-    if (p.y < -20) p.y = H + 20;
-    if (p.y > H + 20) p.y = -20;
-
-    const twinkle = 0.75 + 0.25 * Math.sin(t * p.tw + p.phase);
-    ctx.globalAlpha = p.alpha * twinkle;
-    ctx.fillStyle = adminMode ? "#ff3b4b" : p.color;
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-    ctx.fill();
+if (canvas) {
+  const ctx = canvas.getContext("2d");
+  let particles = [];
+  let mouse = { x: -9999, y: -9999, tx: -9999, ty: -9999 };
+  let W, H;
+  
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
   }
-
-  ctx.globalAlpha = 1;
-  requestAnimationFrame(loop);
+  resize();
+  window.addEventListener("resize", resize);
+  
+  const COLORS = ["#6f7bff", "#4fd17e", "#ff8c42", "#a98bff"];
+  
+  function makeParticle() {
+    const speed = 0.2 + Math.random() * 0.35;
+    const angle = Math.random() * Math.PI * 2;
+    return {
+      x: Math.random() * W,
+      y: Math.random() * H,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed,
+      r: 1 + Math.random() * 2.2,
+      color: COLORS[Math.floor(Math.random() * COLORS.length)],
+      alpha: 0.3 + Math.random() * 0.5,
+      tw: 0.5 + Math.random() * 1.2,
+      phase: Math.random() * Math.PI * 2
+    };
+  }
+  
+  const COUNT = Math.min(90, Math.floor((W * H) / 16000));
+  for (let i = 0; i < COUNT; i++) particles.push(makeParticle());
+  
+  canvas.addEventListener("mousemove", (e) => {
+    mouse.tx = e.clientX;
+    mouse.ty = e.clientY;
+  });
+  canvas.addEventListener("mouseleave", () => {
+    mouse.tx = -9999;
+    mouse.ty = -9999;
+  });
+  window.addEventListener("touchmove", (e) => {
+    const t = e.touches[0];
+    mouse.tx = t.clientX;
+    mouse.ty = t.clientY;
+  }, { passive: true });
+  
+  let t = 0;
+  function loop() {
+    t += 0.016;
+    mouse.x += (mouse.tx - mouse.x) * 0.12;
+    mouse.y += (mouse.ty - mouse.y) * 0.12;
+  
+    ctx.clearRect(0, 0, W, H);
+  
+    for (let p of particles) {
+      p.x += p.vx;
+      p.y += p.vy;
+  
+      const dx = p.x - mouse.x;
+      const dy = p.y - mouse.y;
+      const dist = Math.hypot(dx, dy);
+      const R = 130;
+      if (dist < R && dist > 0.01) {
+        const force = (R - dist) / R;
+        p.x += (dx / dist) * force * 2.2;
+        p.y += (dy / dist) * force * 2.2;
+      }
+  
+      if (p.x < -20) p.x = W + 20;
+      if (p.x > W + 20) p.x = -20;
+      if (p.y < -20) p.y = H + 20;
+      if (p.y > H + 20) p.y = -20;
+  
+      const twinkle = 0.75 + 0.25 * Math.sin(t * p.tw + p.phase);
+      ctx.globalAlpha = p.alpha * twinkle;
+      ctx.fillStyle = adminMode ? "#ff3b4b" : p.color;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(loop);
+  }
+  loop();
 }
-loop();
 
 // ---- typing animation ----
 const typedEl = document.querySelector(".typed");
@@ -111,15 +114,21 @@ playBtn.addEventListener("click", () => {
 
 // ---- join instructions device tabs ----
 const joinTabs = [...document.querySelectorAll(".join-tab")];
-joinTabs.forEach((tab) => {
-  tab.addEventListener("click", () => {
-    joinTabs.forEach((item) => {
-      const selected = item === tab;
-      item.classList.toggle("active", selected);
-      item.setAttribute("aria-selected", String(selected));
-      document.getElementById(item.getAttribute("aria-controls")).hidden = !selected;
-    });
+function selectJoinTab(tab) {
+  joinTabs.forEach((item) => {
+    const selected = item === tab;
+    item.classList.toggle("active", selected);
+    item.setAttribute("aria-selected", String(selected));
+    document.getElementById(item.getAttribute("aria-controls")).hidden = !selected;
   });
+}
+
+selectJoinTab(document.getElementById(
+  window.matchMedia("(max-width: 768px)").matches ? "tab-mobile" : "tab-computer"
+));
+
+joinTabs.forEach((tab) => {
+  tab.addEventListener("click", () => selectJoinTab(tab));
 });
 
 // ---- nav buttons scroll to their sections ----
@@ -173,7 +182,7 @@ async function updateServer() {
     playersLine.style.display = "none";
     motdLine.style.display = "none";
     offlineMsg.hidden = false;
-    document.getElementById("server-icon").src = "assets/server-icon.png";
+    document.getElementById("server-icon").src = "/assets/server-icon.png";
   }
   function showOnline(data) {
     statusEl.className = "online";

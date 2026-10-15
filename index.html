@@ -6,10 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Serwer Klasowy 5D</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="new-style.css" />
 </head>
 <body>
-  <canvas id="bg"></canvas>
-  <div class="glow-grad"></div>
 
   <div id="admin-toolbar" class="admin-toolbar" hidden>
     <button id="admin-open" class="admin-open" type="button">Panel zarządzania</button>
@@ -27,6 +26,7 @@
       <button data-scroll="events">Wydarzenia</button>
       <button data-scroll="contact">Kontakt</button>
     </div>
+    <a class="version-link" href="/legacy/">Przejdź na starą wersję strony</a>
   </nav>
 
   <main>
@@ -197,6 +197,21 @@
       </div>
 
       <div id="join-mobile" class="join-panel" role="tabpanel" aria-labelledby="tab-mobile" hidden>
+        <figure class="mobile-video">
+          <figcaption>Obejrzyj film z instrukcją</figcaption>
+          <div class="mobile-video-frame">
+            <iframe
+              width="2537"
+              height="1151"
+              src="https://www.youtube.com/embed/rdoPi1rB2BE"
+              title="Jak wbić na serwer na urządzeniu mobilnym?"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </figure>
         <div class="entry">
           <div class="entry-top">
             <span class="info">Android</span>
@@ -215,21 +230,6 @@
             <li>Przy kolejnych dołączeniach wpisz <code>/login twojehasło</code>. Podaj hasło ustawione wcześniej jeden raz.</li>
           </ol>
         </div>
-        <figure class="mobile-video">
-          <figcaption>Obejrzyj film z instrukcją</figcaption>
-          <div class="mobile-video-frame">
-            <iframe
-              width="2537"
-              height="1151"
-              src="https://www.youtube.com/embed/rdoPi1rB2BE"
-              title="Jak wbić na serwer na urządzeniu mobilnym?"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen
-            ></iframe>
-          </div>
-        </figure>
       </div>
     </section>
 

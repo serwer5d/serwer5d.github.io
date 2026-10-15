@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <link rel="icon" href="cheezberger.png" type="image/png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Serwer Klasowy 5D</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <canvas id="bg"></canvas>
+  <div class="glow-grad"></div>
+
+  <div id="admin-toolbar" class="admin-toolbar" hidden>
+    <button id="admin-open" class="admin-open" type="button">Panel zarządzania</button>
+  </div>
+
+  <nav class="nav reveal">
+    <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    <div class="nav-links">
+      <button data-scroll="join">Jak dołączyć</button>
+      <button data-scroll="about">O serwerze</button>
+      <button data-scroll="crew">Nasza Załoga</button>
+      <button data-scroll="gallery">Galeria</button>
+      <button data-scroll="status">Status serwera</button>
+      <button data-scroll="news">Aktualności</button>
+      <button data-scroll="events">Wydarzenia</button>
+      <button data-scroll="contact">Kontakt</button>
+    </div>
+  </nav>
+
+  <main>
+    <header class="hero">
+      <div class="hero-grid">
+        <div class="hero-left">
+          <div class="badge">Java i Bedrock</div>
+          <h1><span class="typed"></span><span class="caret"></span></h1>
+          <p class="tagline">Dołącz do nas!</p>
+          <button id="playBtn" class="play-btn">Zagraj <span class="arrow">→</span></button>
+        </div>
+        <div class="screen reveal">
+          <div class="screen-top">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="screen-title">serwer5d.ivhs.pl</span>
+          </div>
+          <div class="screen-body">
+            <img class="shot" src="../assets/gameplay.png" alt="Zrzut z rozgrywki" />
+</div>
+      <div class="screen-tag">Zrzut z serwera</div>
+        </div>
+      </div>
+
+
+    </header>
+
+    <div class="bento">
+      <section id="news" class="card news reveal">
+        <h2>Aktualności serwera</h2>
+        <p class="hint">Tutaj będą najważniejsze aktualności serwera</p>
+      </section>
+
+      <section id="about" class="card tall reveal">
+        <h2>O serwerze</h2>
+        <div class="facts-col">
+          <div class="fact">
+            <div class="fact-num">Wersja</div>
+            <div class="fact-val">Java 1.8-26.2 (zalecana 1.21.1) - Bedrock dowolna wersja</div>
+          </div>
+          <div class="fact">
+            <div class="fact-num">Tryby</div>
+            <div class="fact-val">Woda kolońska SMP, Lifesteal</div>
+          </div>
+          <div class="fact">
+            <div class="fact-num">Gracze</div>
+            <div class="fact-val">Tylko klasa 5D</div>
+          </div>
+          <div class="fact">
+            <div class="fact-num">Wydajność</div>
+            <div class="fact-val">Dobra</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="crew" class="card crew reveal">
+        <h2 id="crew-title">Nasza Załoga</h2>
+        <div class="crew-list">
+          <div class="member">
+            <div class="avatar owner"><span>S</span><img class="avatar-image" alt="" hidden /></div>
+            <div class="member-info">
+              <span class="member-name">Szymon</span>
+              <span class="member-role owner-role">Właściciel serwera</span>
+              <button class="member-photo-edit quiet-action" type="button" hidden>Zmień zdjęcie profilowe</button>
+            </div>
+            <span class="crown">👑</span>
+          </div>
+          <div class="member">
+            <div class="avatar head"><span>K</span><img class="avatar-image" alt="" hidden /></div>
+            <div class="member-info">
+              <span class="member-name">Kuba</span>
+              <span class="member-role head-role">HeadAdmin</span>
+              <button class="member-photo-edit quiet-action" type="button" hidden>Zmień zdjęcie profilowe</button>
+            </div>
+            <span class="crown">⭐</span>
+          </div>
+          <div class="member">
+            <div class="avatar admin"><span>D</span><img class="avatar-image" alt="" hidden /></div>
+            <div class="member-info">
+              <span class="member-name">Dawid</span>
+              <span class="member-role admin-role">Admin</span>
+              <button class="member-photo-edit quiet-action" type="button" hidden>Zmień zdjęcie profilowe</button>
+            </div>
+            <span class="crown">🛡️</span>
+          </div>
+        </div>
+      </section>
+
+      
+
+      <section id="gallery" class="card slim reveal">
+        <h2>Galeria</h2>
+        <p class="hint">Zrzuty z serwera.</p>
+        <div class="gallery">
+          <figure class="photo"><img src="../assets/gallery1.png" alt="Zrzut z rozgrywki 1" /></figure>
+          <figure class="photo"><img src="../assets/gallery2.png" alt="Zrzut z rozgrywki 2" /></figure>
+
+      </section>
+
+      <section id="status" class="card short reveal">
+        <h2>Status serwera</h2>
+        <div class="status-block">
+          <img id="server-icon" width="64" height="64" src="../assets/server-icon.png" alt="" />
+          <div class="srv-info">
+            <div id="server-status"><span class="dot"></span>Sprawdzanie...</div>
+            <div id="players-line">Gracze: <span id="players">-</span></div>
+            <div id="motd-line">
+              <span class="motd-label">MOTD:</span>
+              <span id="motd">-</span>
+            </div>
+            <div id="offline-msg" hidden>Skontaktuj się z administracją aby uruchomiła serwer</div>
+            <div class="refresh-row">
+              <span id="refresh-caption">Dane odświeżą się za</span>
+              <div class="progress"><div id="progress-fill"></div></div>
+              <span id="refresh-label"><span class="num">30</span>s</span>
+            </div>
+          </div>
+        </div>
+        <p class="about-note">Ta usługa czasami popełnia błąd a więc dane tutaj mogą być nieprawdziwe lub nieaktualne.</p>
+      </section>
+
+      <section id="events" class="card hidden reveal">
+        <h2>Wydarzenia</h2>
+        <div class="event-list">
+          <p>Nie ma żadnych planowanych wydarzeń</p>
+        </div>
+      </section>
+
+      <section id="contact" class="card short reveal">
+        <h2>Kontakt</h2>
+        <p>Masz sugestię? Znalazłeś błąd? Napisz na grupie WhatsApp „Serwer Minecraft" albo skontaktuj się w prywatnej wiadomości na WhatsAppie z naszą załogą.</p>
+        <a class="wa-btn" href="https://chat.whatsapp.com/D9NC5xxgzsQ5Lo6bZFvtnB" target="_blank" rel="noopener">
+          <svg viewBox="0 0 32 32" aria-hidden="true">
+            <path d="M16 3C8.8 3 3 8.8 3 16c0 2.3.6 4.5 1.7 6.4L3 29l6.8-1.7c1.9 1 4 1.6 6.2 1.6 7.2 0 13-5.8 13-13S23.2 3 16 3z" fill="#25D366"/>
+            <path d="M22.4 18.1c-.3-.1-1.6-.8-1.9-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.5-.5c.1-.2.2-.3.2-.5s0-.4-.1-.5c-.1-.1-.7-1.8-1-2.4-.2-.6-.5-.5-.7-.5h-.5c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2 3.2 4.9 4.4.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.6-.7 1.9-1.3.2-.6.2-1.2.2-1.3-.1-.1-.3-.2-.6-.2z" fill="#fff"/>
+          </svg>
+          Dołącz na naszą grupę!
+        </a>
+      </section>
+
+      
+    </div>
+
+    <section id="join" class="card wide reveal">
+      <h2>Jak dołączyć?</h2>
+      <div class="join-tabs" role="tablist" aria-label="Wybierz urządzenie">
+        <button class="join-tab active" id="tab-computer" type="button" role="tab" aria-selected="true" aria-controls="join-computer">Komputer</button>
+        <button class="join-tab" id="tab-mobile" type="button" role="tab" aria-selected="false" aria-controls="join-mobile">Telefon i tablet</button>
+      </div>
+
+      <div id="join-computer" class="join-panel" role="tabpanel" aria-labelledby="tab-computer">
+        <div class="entry">
+          <div class="entry-top">
+            <span class="info">1.8-26.2</span>
+          </div>
+          <div class="copy-row">
+            <code>serwer5d.ivhs.pl</code>
+            <button class="copy-btn" data-copy="serwer5d.ivhs.pl" type="button">Kopiuj</button>
+          </div>
+          <ol class="steps">
+            <li>Otwórz Minecraft Java Edition.</li>
+            <li>Wybierz <b>Tryb wieloosobowy (Multiplayer)</b> → <b>Dodaj serwer (Add Server)</b>.</li>
+            <li>Wklej adres do pola <b>Adres serwera (Server Address)</b> i kliknij <b>Gotowe (Done)</b>. Następnie wybierz nazwę serwera i kliknij <b>Dołącz (Join Server)</b>.</li>
+            <li>Otwórz czat klawiszem T i wpisz <code>/register twojehasło twojehasło</code>. Oba hasła muszą być takie same i oddzielone spacją.</li>
+            <li>Kliknij manekina z trybem, do którego chcesz dołączyć, i graj!</li>
+            <li>Przy kolejnych dołączeniach wpisz na czacie <code>/login twojehasło</code> (hasło podaj jeden raz).</li>
+          </ol>
+        </div>
+      </div>
+
+      <div id="join-mobile" class="join-panel" role="tabpanel" aria-labelledby="tab-mobile" hidden>
+        <figure class="mobile-video">
+          <figcaption>Obejrzyj film z instrukcją</figcaption>
+          <div class="mobile-video-frame">
+            <iframe
+              width="2537"
+              height="1151"
+              src="https://www.youtube.com/embed/rdoPi1rB2BE"
+              title="Jak wbić na serwer na urządzeniu mobilnym?"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </figure>
+        <div class="entry">
+          <div class="entry-top">
+            <span class="info">Android</span>
+          </div>
+          <div class="copy-row">
+            <code>serwer5d.ivhs.pl</code>
+            <button class="copy-btn" data-copy="serwer5d.ivhs.pl" type="button">Kopiuj</button>
+          </div>
+          <ol class="steps">
+            <li>Pobierz <a href="https://play.google.com/store/apps/details?id=git.artdeell.mjlaunch&amp;hl=pl" target="_blank" rel="noopener">bezpłatną aplikację Mojo Launcher z Google Play</a>.</li>
+            <li>Otwórz Mojo Launcher, kliknij niebieski przycisk <b>Graj</b> i poczekaj do 5 minut.</li>
+            <li>Kliknij <b>Multiplayer</b>, potem <b>Add Server</b>. W polu <b>Server Address</b> wklej skopiowany adres IP (otwórz klawiaturę przyciskiem <b>KEYBOARD</b>), a następnie wciśnij <b>Done</b>.</li>
+            <li>Kliknij nazwę serwera, a potem przycisk <b>Join Server</b>.</li>
+            <li>Wciśnij <b>CHAT</b> i wpisz <code>/register twojehasło twojehasło</code>. Hasła muszą być takie same i oddzielone spacją.</li>
+            <li>Kliknij manekina z trybem, do którego chcesz dołączyć, i graj!</li>
+            <li>Przy kolejnych dołączeniach wpisz <code>/login twojehasło</code>. Podaj hasło ustawione wcześniej jeden raz.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <footer class="reveal">
+      <span>Miłej gry życzy Szymon, twórca strony</span>
+    </footer>
+  </main>
+
+  <div id="toast"></div>
+
+  <div id="admin-dialog" class="modal" hidden>
+    <div class="modal-backdrop" data-close-modal></div>
+    <section class="modal-card admin-modal" role="dialog" aria-modal="true" aria-labelledby="admin-dialog-title">
+      <button class="modal-close" type="button" aria-label="Zamknij">×</button>
+      <div id="admin-login-view">
+        <h2 id="admin-dialog-title">Logowanie</h2>
+        <form id="admin-login-form" class="admin-form">
+          <label>Nazwa użytkownika<input name="username" autocomplete="username" required /></label>
+          <label>Hasło<input name="password" type="password" autocomplete="current-password" required /></label>
+          <p class="form-error" id="login-error" role="alert"></p>
+          <button class="admin-action" type="submit">Zaloguj</button>
+        </form>
+      </div>
+      <div id="admin-panel-view" hidden>
+        <div class="panel-heading">
+          <div>
+            <h2 id="admin-panel-title">Panel zarządzania</h2>
+            <p id="admin-session-label" class="panel-caption"></p>
+          </div>
+          <button id="admin-logout" class="quiet-action" type="button">Wyloguj</button>
+        </div>
+        <section id="password-controls" class="password-controls" hidden>
+          <h3>Zmiana hasła</h3>
+          <form id="password-form" class="admin-form">
+            <label>Konto
+              <select name="username" required>
+                <option value="Szymon">Szymon</option>
+                <option value="Kuba">Kuba</option>
+                <option value="Dawid">Dawid</option>
+              </select>
+            </label>
+            <label>Nowe hasło<input name="password" type="password" autocomplete="new-password" minlength="4" required /></label>
+            <p class="form-error" id="password-error" role="alert"></p>
+            <button class="admin-action" type="submit">Zapisz hasło</button>
+          </form>
+        </section>
+        <section class="profile-controls">
+          <h3>Zdjęcia profilowe</h3>
+          <div id="admin-profile-list" class="admin-profile-list"></div>
+        </section>
+      </div>
+    </section>
+  </div>
+
+  <div id="photo-dialog" class="modal" hidden>
+    <div class="modal-backdrop" data-close-photo></div>
+    <section class="modal-card photo-modal" role="dialog" aria-modal="true" aria-labelledby="photo-dialog-title">
+      <button class="modal-close" type="button" aria-label="Zamknij">×</button>
+      <h2 id="photo-dialog-title">Zdjęcie profilowe</h2>
+      <button id="pick-photo" class="file-pick" type="button">Wybierz obraz z urządzenia</button>
+      <input id="photo-file" class="photo-file-input" type="file" accept="image/*" hidden />
+      <div class="crop-stage"><canvas id="crop-canvas" width="320" height="320" aria-label="Kadruj zdjęcie"></canvas></div>
+      <div class="crop-tools">
+        <label class="zoom-control">Powiększenie<input id="photo-zoom" type="range" min="1" max="3" step="0.01" value="1" /></label>
+        <button id="rotate-photo" class="quiet-action" type="button">Obróć 90°</button>
+      </div>
+      <p id="photo-error" class="form-error" role="alert"></p>
+      <button id="save-photo" class="admin-action" type="button" disabled>Zatwierdź zdjęcie</button>
+    </section>
+  </div>
+
+  <div id="lightbox" class="lightbox" hidden>
+    <button class="lb-close" aria-label="Zamknij">×</button>
+    <img class="lb-img" src="" alt="" />
+  </div>
+
+  <script src="../script.js"></script>
+</body>
+</html>

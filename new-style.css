@@ -1,11 +1,54 @@
-/* Square-edged, static presentation for the refreshed version. */
-:root { --bg: #080d15; --card: #111a28; }
+/* Square-edged, static presentation in a light palette. */
+@font-face {
+  font-family: "Minecraft Regular";
+  src: url("Minecraft-Regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: light;
+  --bg: #f3f6fa;
+  --card: #ffffff;
+  --line: rgba(25, 42, 62, 0.16);
+  --text: #1b2939;
+  --muted: #5d6c7e;
+  --java: #bd571d;
+  --bedrock: #188447;
+  --accent: #405ed0;
+}
 
 * { border-radius: 0 !important; }
+body, body * { font-family: "Minecraft Regular", system-ui, sans-serif !important; }
 
-body { background: #080d15; }
+.top-banner {
+  width: 100%;
+  background-image: url("uploads/image-2.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.nav { background: transparent; backdrop-filter: none; }
+.hero-main { max-width: 920px; margin: 0 auto; padding: 0 20px; position: relative; }
 
-/* The new version is immediately readable without scroll/reveal effects. */
+body {
+  background-color: var(--bg);
+  background-image: linear-gradient(rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.82)), url("uploads/image.png");
+  background-position: center, center;
+  background-size: cover, cover;
+  background-repeat: no-repeat, no-repeat;
+  background-attachment: fixed, fixed;
+  color: var(--text);
+  cursor: url("uploads/cursormain-small.cur") 1 1, auto;
+}
+
+/* The ANI stays animated where supported; its first frame is the fallback. */
+button, a, [role="button"], .photo, label, select, input[type="range"], input[type="file"] {
+  cursor: url("uploads/pointer-small.ani"), url("uploads/pointer-small.cur") 1 1, pointer !important;
+}
+
+/* The refreshed version is immediately readable without reveal motion. */
 .reveal, .reveal.visible { opacity: 1; transform: none; transition: none; }
 
 .nav { align-items: center; gap: 10px; }
@@ -15,6 +58,9 @@ body { background: #080d15; }
   backdrop-filter: none;
   text-decoration: none;
 }
+.nav-links button { background: #e9eef5; }
+.nav-links button:hover { background: #dce5f1; box-shadow: none; }
+.nav-links button:active { transform: none; }
 .version-link {
   display: inline-flex;
   align-items: center;
@@ -22,17 +68,293 @@ body { background: #080d15; }
   min-height: 42px;
   padding: 8px 14px;
   border: 1px solid var(--accent);
-  color: var(--text);
-  background: #182238;
+  color: #fff;
+  background: #344fae;
   font-size: 0.88rem;
   font-weight: 700;
   text-align: center;
   white-space: nowrap;
 }
-.version-link:hover { background: #253454; }
+.version-link:hover { background: #293f91; }
+
+.screen { background: transparent; border: 0; box-shadow: none; overflow: visible; }
+.screen-body {
+  position: relative;
+  height: 280px;
+  background: #dce5ef;
+  isolation: isolate;
+}
+.screen-body .shot {
+  position: absolute;
+  z-index: 0;
+  top: 20.05%;
+  left: 13.85%;
+  width: 73.9%;
+  height: 63.87%;
+  object-fit: cover;
+}
+.screen-body::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background: url("uploads/imageframe.png") center / 100% 100% no-repeat;
+  pointer-events: none;
+  transition: filter 160ms ease;
+}
+.screen-body:hover::after { filter: brightness(1.55); }
+.card { box-shadow: 0 4px 18px rgba(28, 46, 68, 0.045); }
+.badge { background: #e9eef5; color: var(--muted); }
+.typed { background-image: linear-gradient(135deg, #172b4b, #405ed0); }
+.caret { background: var(--accent); }
+.play-btn { box-shadow: 0 7px 22px rgba(64, 94, 208, 0.23); }
+.play-btn:hover { box-shadow: 0 10px 28px rgba(64, 94, 208, 0.3); }
+
+.entry, .fact, .member, .admin-profile-row, .content {
+  background: #f7f9fc;
+}
+.join-tabs { background: #edf1f6; }
+.join-tab { color: var(--muted); }
+.join-tab:hover { color: var(--text); background: #e1e8f1; }
+.copy-row { background: #edf1f6; }
+code { color: var(--text); }
+.steps code { color: var(--text); }
+.status-block img { background: #edf1f6; }
+.progress { background: #e1e7ef; }
+#progress-fill { background: linear-gradient(90deg, #405ed0, #188447); }
+
+#toast {
+  color: var(--text);
+  background: #fff;
+  box-shadow: 0 8px 28px rgba(28, 46, 68, 0.18);
+}
+
+.modal-card {
+  color: var(--text);
+  background: #fff;
+  box-shadow: 0 20px 60px rgba(20, 34, 52, 0.25);
+}
+.modal-close, .quiet-action, .file-pick {
+  color: var(--text);
+  background: #edf1f6;
+}
+.quiet-action:hover, .file-pick:hover { background: #e1e8f1; }
+.admin-form input, .admin-form select {
+  color: var(--text);
+  background: #fff;
+}
+.admin-form select option { background: #fff; color: var(--text); }
+.admin-profile-row { background: #f7f9fc; }
+.crop-stage { background: #e9eef5; }
+
+/* Preserve the light theme when the crew admin easter egg is active. */
+.admin-mode { --bg: #f3f6fa; --card: #fff; --accent: #c52e46; }
+.admin-mode .nav-links button:hover { background: #f9e7eb; box-shadow: none; }
+.admin-mode .play-btn { background: linear-gradient(135deg, #e74b61, #a91d37); }
+.admin-mode .typed { background-image: linear-gradient(135deg, #172b4b, #c52e46); }
+.admin-mode #progress-fill { background: linear-gradient(90deg, #e74b61, #a91d37); }
 
 @media (max-width: 768px) {
-  .nav { gap: 12px; }
+  .screen-body { height: 230px; }
+  .nav { gap: 12px; margin: 0; }
   .nav .version-link { margin-left: auto; padding: 7px 9px; font-size: 0.75rem; white-space: normal; }
-  .nav .nav-links { flex: initial; }
+  .nav .nav-links { flex: initial; background: #fff; box-shadow: 0 16px 34px rgba(28, 46, 68, 0.16); }
+  .nav .nav-links button { background: #f1f4f8; }
 }
+
+
+/* Hero copy stays white over the full-width Minecraft banner. */
+.typed, .admin-mode .typed {
+  background: none;
+  color: #fff;
+  -webkit-text-fill-color: #fff;
+  text-shadow: 0 2px 3px rgba(0, 0, 0, 0.75);
+}
+.tagline { color: #fff; text-shadow: 0 2px 3px rgba(0, 0, 0, 0.75); }
+
+/* Shared Minecraft texture states for every non-navigation control. */
+#playBtn, .join-tab, .copy-btn, .admin-open, .admin-action,
+.quiet-action, .file-pick, .modal-close, .lb-close, .wa-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60px;
+  padding: 10px 24px;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+  background-image: url("uploads/image-3.png");
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: 100% 100% !important;
+  box-shadow: none;
+  color: #fff;
+  font-family: "Minecraft Regular", system-ui, sans-serif !important;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.3;
+  text-align: center;
+  text-shadow: 0 2px 0 #777;
+  image-rendering: pixelated;
+  transition: transform 100ms ease;
+}
+#playBtn, .join-tab, .copy-btn, .admin-open, .admin-action,
+.quiet-action, .file-pick, .modal-close, .lb-close, .wa-btn {
+  cursor: url("uploads/pointer-small.ani"), url("uploads/pointer-small.cur") 1 1, pointer !important;
+}
+#playBtn:hover, .join-tab:hover, .copy-btn:hover, .admin-open:hover, .admin-action:hover,
+.quiet-action:hover, .file-pick:hover, .modal-close:hover, .lb-close:hover, .wa-btn:hover {
+  background-image: url("uploads/image-4.png");
+  color: #ffff55;
+  filter: none;
+  transform: none;
+}
+#playBtn:active, .join-tab:active, .copy-btn:active, .admin-open:active, .admin-action:active,
+.quiet-action:active, .file-pick:active, .modal-close:active, .lb-close:active, .wa-btn:active {
+  background-image: url("uploads/image-5.png");
+  color: #ffff55;
+  transform: scale(0.98);
+}
+#playBtn .arrow, #playBtn:hover .arrow { transform: none; }
+.modal-close, .lb-close { width: 60px; height: 60px; min-width: 60px; padding: 0; }
+.wa-btn { width: 100%; }
+
+.join-tab.active:not(:hover):not(:active) { background-image: url("uploads/image-9.png"); }
+.modal-close, .lb-close { width: 48px; height: 48px; min-width: 48px; min-height: 48px; padding: 0; }
+
+
+/* Sticky reference-style navigation: clear over the banner, white after scroll. */
+.top-banner { padding-top: 76px; }
+.nav {
+  position: fixed;
+  z-index: 800;
+  inset: 0 0 auto;
+  width: 100%;
+  height: 76px;
+  margin: 0;
+  padding: 0 clamp(18px, 3vw, 42px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  background: transparent;
+  border: 0;
+  transition: background-color 160ms ease, box-shadow 160ms ease;
+}
+.nav.scrolled {
+  background: #fff;
+  box-shadow: 0 1px 0 rgba(20, 34, 52, 0.12);
+}
+.nav .brand-logo {
+  display: block;
+  flex: 0 0 150px;
+  width: 150px;
+  line-height: 0;
+}
+.nav .brand-logo img { display: block; width: 100%; height: auto; object-fit: contain; }
+.nav .nav-links {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(2px, 0.65vw, 10px);
+  min-width: 0;
+}
+.nav .nav-links button {
+  flex: 0 1 auto;
+  padding: 10px clamp(3px, 0.5vw, 8px);
+  border: 0;
+  color: #fff;
+  background: transparent;
+  font-size: 0.74rem;
+  font-weight: 400;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.85);
+  white-space: nowrap;
+  box-shadow: none;
+}
+.nav .nav-links button:hover, .nav .nav-links button:active {
+  color: #ffff55;
+  background: transparent;
+  transform: none;
+  box-shadow: none;
+}
+.nav.scrolled .nav-links button {
+  color: #263449;
+  text-shadow: none;
+}
+.nav.scrolled .nav-links button:hover, .nav.scrolled .nav-links button:active {
+  color: #405ed0;
+}
+.nav .version-link {
+  flex: 0 0 auto;
+  margin: 0 0 0 clamp(12px, 2vw, 30px);
+  min-height: 42px;
+  padding: 7px 12px;
+  color: #fff;
+  background: #344fae;
+  border: 1px solid #fff;
+  font-size: 0.72rem;
+  line-height: 1.25;
+  text-decoration: none;
+  text-align: center;
+  white-space: nowrap;
+}
+.nav .version-link:hover { background: #293f91; }
+
+@media (max-width: 1100px) {
+  .nav { padding: 0 22px; gap: 14px; }
+  .nav .nav-toggle {
+    display: flex;
+    order: 2;
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
+    padding: 9px;
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    background: rgba(0, 0, 0, 0.16);
+  }
+  .nav.scrolled .nav-toggle { border-color: var(--line); background: #eef1f5; }
+  .nav .nav-toggle span { background: #fff; }
+  .nav.scrolled .nav-toggle span { background: #263449; }
+  .nav .nav-links {
+    display: none;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 16px;
+    right: 16px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+    padding: 10px;
+    border: 1px solid var(--line);
+    background: #fff;
+    box-shadow: 0 12px 32px rgba(22, 36, 54, 0.2);
+  }
+  .nav.open .nav-links { display: flex; }
+  .nav .nav-links button, .nav.scrolled .nav-links button {
+    width: 100%;
+    padding: 11px 14px;
+    color: #263449;
+    text-align: left;
+    text-shadow: none;
+  }
+  .nav .nav-links button:hover, .nav .nav-links button:active { background: #eef1f5; }
+  .nav .brand-logo { order: 1; margin-right: auto; }
+  .nav .version-link { order: 3; margin-left: 0; }
+}
+
+@media (max-width: 520px) {
+  .top-banner { padding-top: 68px; }
+  .nav { height: 68px; padding: 0 12px; gap: 8px; }
+  .nav .brand-logo { flex-basis: 104px; width: 104px; }
+  .nav .nav-toggle { width: 36px; height: 36px; flex-basis: 36px; padding: 7px; }
+  .nav .version-link {
+    max-width: 112px;
+    min-height: 36px;
+    padding: 5px 7px;
+    font-size: 0.56rem;
+    white-space: normal;
+  }
+}
+
+button:active, .wa-btn:active, .version-link:active { transform: none !important; }
